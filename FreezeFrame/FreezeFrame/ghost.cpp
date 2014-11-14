@@ -9,7 +9,7 @@ Ghost::Ghost():Actor(){
 	collisionType = COLLISION_TYPE::BOX;
 	colorFilter = GhostNS::COLOR;
 	setActive(false);
-	target = false;
+	target = true;
 	shoot = false;
 	pattern = 0;
 }
@@ -50,12 +50,12 @@ void Ghost::deltaTrack()
 
 	if(targetEntity.getCenterX() < getCenterX())
 		v.x = -1;
-	if(targetEntity.getCenterX() > getCenterX())
+	else if(targetEntity.getCenterX() > getCenterX())
 		v.x = 1;
 
-	if(targetEntity.getCenterY() < getCenterY())
+	else if(targetEntity.getCenterY() < getCenterY())
 		v.y = -1;
-	if(targetEntity.getCenterY() > getCenterY())
+	else if(targetEntity.getCenterY() > getCenterY())
 		v.y = 1;
 
 	D3DXVec2Normalize(&v, &v);
@@ -72,6 +72,11 @@ void Ghost::vectorTrack()
 void Ghost::ai(float time, Actor &t)
 { 
 	if(active) {
+		if(target)
+			targetEntity = t;
+		else
+			targetEntity = game->getHome();
+
 		//VECTOR2 toPlayer = game->getPlayerLoc() - getCenter();
 		//float distSqrdToPlayer = D3DXVec2LengthSq(&toPlayer);
 

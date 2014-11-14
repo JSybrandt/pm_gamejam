@@ -96,6 +96,7 @@ private:
 	Actor dots[MAX_DOTS];
 	Particle particles[MAX_PARTICLES];
 	Wall walls[MAX_WALLS];
+	Actor home;
 
 	PatternStep pattern1[8];
 	PatternStep pattern2[8];
@@ -153,7 +154,7 @@ public:
 	//places the screen so the selected location is in the middle area (might not center)
 	void updateScreen(VECTOR2 center); 
 
-	
+	Actor& getHome() {return home;}	
 	Wall* spawnWall(VECTOR2 loc, VECTOR2 size);
 	Actor* spawnDot(VECTOR2 loc);
 	Ghost* spawnGhost(VECTOR2 loc);//TODO: add stuff for AI

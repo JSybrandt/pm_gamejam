@@ -44,15 +44,19 @@ void PatternStep::update(float frameTime)
 		entity->setVelocity(D3DXVECTOR2(-.5,-.5));
 		break;
 	case TRACK:
+		entity->setTarget(true);
 		entity->vectorTrack();
 		break;
 	case DELTA:
+		entity->setTarget(true);
 		entity->deltaTrack();
 		break;
 	case EVADE:
+		entity->setTarget(true);
 		entity->evade();
 		break;
 	case HOME:
+		entity->setTarget(false);
 		break;
 	}
 }

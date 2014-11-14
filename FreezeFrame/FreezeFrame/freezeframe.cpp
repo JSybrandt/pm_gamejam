@@ -121,11 +121,11 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	level1Load();
 
-	if(!ghost1.initialize(this,64,64,4,&ghostTex))
+	if(!ghost1.initialize(this,128,128,0,&ghostTex))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
-	if(!ghost2.initialize(this,64,64,4,&ghostTex))
+	if(!ghost2.initialize(this,128,128,0,&ghostTex))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
-	if(!ghost3.initialize(this,64,64,4,&ghostTex))
+	if(!ghost3.initialize(this,128,128,0,&ghostTex))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
 
 	for (int i = 0; i< 8; i++)
@@ -147,8 +147,8 @@ void FreezeFrame::initialize(HWND hwnd)
 	pattern1[5].setTimeForStep(2);
 	pattern1[6].setAction(DOWN);
 	pattern1[6].setTimeForStep(2);
-	pattern2[7].setAction(NA);
-	pattern2[7].setTimeForStep(5);
+	pattern1[7].setAction(NA);
+	pattern1[7].setTimeForStep(5);
 
 	for (int i = 0; i< 8; i++)
 	{
@@ -179,9 +179,12 @@ void FreezeFrame::initialize(HWND hwnd)
 		pattern3[i].setActive();
 	}
 	pattern3[0].setAction(DELTA);
-	pattern3[0].setTimeForStep(7);
+	pattern3[0].setTimeForStep(2);
 	pattern3[1].setAction(HOME);
-	pattern3[1].setTimeForStep(8);
+	pattern3[1].setTimeForStep(2);
+
+	home.initialize(this, 0,0,0,&ghostTex);
+	home.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
 
 	return;
 }
@@ -236,7 +239,6 @@ void FreezeFrame::levelsUpdate()
 				case FreezeFrame::Level3:
 					level3Load();
 					break;
-					break;
 				default:
 					break;
 				}
@@ -247,6 +249,9 @@ void FreezeFrame::levelsUpdate()
 	player.update(worldFrameTime);
 	updateScreen(player.getCenter());
 
+	ghost1.update(worldFrameTime);
+	ghost2.update(worldFrameTime);
+	ghost3.update(worldFrameTime);
 
 	for(int i = 0; i < MAX_GhostS; i++)
 	{
@@ -267,14 +272,17 @@ void FreezeFrame::levelsUpdate()
 //=============================================================================
 void FreezeFrame::ai()
 {
+	ghost1.ai(frameTime, player);
+	ghost2.ai(frameTime, player);
+	ghost3.ai(frameTime, player);
 
-	if (ps1 == 9) {
+	if (ps1 == 8) {
 		ps1 = 0;
 	}
-	if (ps2 == 9) {
+	if (ps2 == 8) {
 		ps2 = 0;
 	}
-	if (ps3 == 3) {
+	if (ps3 == 2) {
 		ps3 = 0;
 	}
 
@@ -347,18 +355,14 @@ void FreezeFrame::levelsRender()
 	for(int i = 0 ; i < MAX_DOTS; i++)
 		dots[i].draw(screenLoc);
 	
-
-	for(int i = 0; i < MAX_GhostS; i++)
-	{
-		Ghosts[i].draw(screenLoc,graphicsNS::FILTER);
-	}
-
+	ghost1.draw(screenLoc, graphicsNS::RED);
+	ghost2.draw(screenLoc, graphicsNS::BLUE);
+	ghost3.draw(screenLoc, graphicsNS::GREEN);
 
 	for(int i = 0; i < MAX_WALLS; i++)
 	{
 		walls[i].draw(screenLoc);
 	}
-
 
 	player.draw(screenLoc);
 
@@ -397,6 +401,15 @@ void FreezeFrame::level1Load()
 {
 	currentState = Level1;
 	deactivateAll();
+
+	ghost1.setActive(true);
+	ghost1.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
+
+	ghost2.setActive(true);
+	ghost2.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
+
+	ghost3.setActive(true);
+	ghost3.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
 
 	player.setCenter(getCurrentWorldSize()/2);
 
