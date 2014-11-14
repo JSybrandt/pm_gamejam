@@ -50,12 +50,12 @@ void Ghost::deltaTrack()
 
 	if(targetEntity.getCenterX() < getCenterX())
 		v.x = -1;
-	if(targetEntity.getCenterX() > getCenterX())
+	else if(targetEntity.getCenterX() > getCenterX())
 		v.x = 1;
 
-	if(targetEntity.getCenterY() < getCenterY())
+	else if(targetEntity.getCenterY() < getCenterY())
 		v.y = -1;
-	if(targetEntity.getCenterY() > getCenterY())
+	else if(targetEntity.getCenterY() > getCenterY())
 		v.y = 1;
 
 	D3DXVec2Normalize(&v, &v);

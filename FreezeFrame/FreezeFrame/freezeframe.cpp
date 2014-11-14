@@ -294,13 +294,13 @@ void FreezeFrame::ai()
 		pattern2[ps2].setActive();
 		ps2++;
 	}
-	/*if (pattern3[ps3].isFinished()) {
+	if (pattern3[ps3].isFinished()) {
 		pattern3[ps3].setActive();
 		ps3++;
-	}*/
+	}
 	pattern1[ps1].update(frameTime);
 	pattern2[ps2].update(frameTime);
-	//pattern3[ps3].update(frameTime);
+	pattern3[ps3].update(frameTime);
 }
 
 //=============================================================================
