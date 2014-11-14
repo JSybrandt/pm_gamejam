@@ -29,7 +29,7 @@ void Ghost::update(float frameTime)
 	{
 
 		VECTOR2 endLoc = getCenter()+(getVelocity()*GhostNS::SPEED*frameTime);
-		endLoc = game->getRealEndLoc(getCenter(),endLoc,this);
+		game->getRealEndLoc(getCenter(),endLoc,this);
 		setCenter(endLoc);
 
 	}
