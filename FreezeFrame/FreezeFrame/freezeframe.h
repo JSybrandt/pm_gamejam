@@ -183,7 +183,7 @@ public:
 
 	VECTOR2 getCurrentWorldSize(){return worldSizes[currentState];}
 
-	VECTOR2 getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor* a);
+	bool getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor* a);
 
 	void onPlayerDeath();
 
