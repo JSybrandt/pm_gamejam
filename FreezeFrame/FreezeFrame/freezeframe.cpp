@@ -134,19 +134,19 @@ void FreezeFrame::initialize(HWND hwnd)
 		pattern1[i].setActive();
 	}
 	pattern1[0].setAction(UP);
-	pattern1[0].setTimeForStep(2);
+	pattern1[0].setTimeForStep(6);
 	pattern1[1].setAction(RIGHT);
-	pattern1[1].setTimeForStep(2);
+	pattern1[1].setTimeForStep(3);
 	pattern1[2].setAction(DOWN);
-	pattern1[2].setTimeForStep(4);
+	pattern1[2].setTimeForStep(12);
 	pattern1[3].setAction(LEFT);
-	pattern1[3].setTimeForStep(4);
+	pattern1[3].setTimeForStep(6);
 	pattern1[4].setAction(UP);
-	pattern1[4].setTimeForStep(4);
+	pattern1[4].setTimeForStep(12);
 	pattern1[5].setAction(RIGHT);
-	pattern1[5].setTimeForStep(2);
+	pattern1[5].setTimeForStep(3);
 	pattern1[6].setAction(DOWN);
-	pattern1[6].setTimeForStep(2);
+	pattern1[6].setTimeForStep(6);
 	pattern1[7].setAction(NA);
 	pattern1[7].setTimeForStep(5);
 
