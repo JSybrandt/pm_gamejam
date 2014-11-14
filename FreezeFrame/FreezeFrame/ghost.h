@@ -4,7 +4,7 @@
 
 class FreezeFrame;
 
-namespace guardNS
+namespace GhostNS
 {
 	const float SPEED=100;
 	const float LOSE_DISTANCE_SQRD = pow(600,2);
@@ -16,7 +16,7 @@ namespace guardNS
 	const VECTOR2 bulletDisplacement(28,18);
 };
 
-class Guard:public Actor
+class Ghost:public Actor
 {
 public:
 	FreezeFrame *game;
@@ -30,8 +30,8 @@ public:
 	float personalEngageDistanceSQRD;
 
 public:
-	Guard();
-	~Guard();
+	Ghost();
+	~Ghost();
 
 	bool initialize(FreezeFrame * game, int width, int height, int ncols, TextureManager *textureM);
 
