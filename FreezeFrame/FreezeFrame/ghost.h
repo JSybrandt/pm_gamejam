@@ -14,6 +14,7 @@ namespace GhostNS
 	const float RECOIL_TIME = 0.25;
 	const COLOR_ARGB COLOR = graphicsNS::RED;
 	const VECTOR2 bulletDisplacement(28,18);
+	const VECTOR2 home(640,800);
 };
 
 class Ghost:public Actor
@@ -43,6 +44,8 @@ public:
 	void create(VECTOR2 loc);
 
 	bool getHunting() {return target;}
+
+	void setTarget(bool t) {target = t;}
 
 	void vectorTrack();
 	void deltaTrack();

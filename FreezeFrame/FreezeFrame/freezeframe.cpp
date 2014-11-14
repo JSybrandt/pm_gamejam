@@ -179,9 +179,12 @@ void FreezeFrame::initialize(HWND hwnd)
 		pattern3[i].setActive();
 	}
 	pattern3[0].setAction(DELTA);
-	pattern3[0].setTimeForStep(7);
-	pattern3[1].setAction(TRACK);
-	pattern3[1].setTimeForStep(8);
+	pattern3[0].setTimeForStep(2);
+	pattern3[1].setAction(HOME);
+	pattern3[1].setTimeForStep(2);
+
+	home.initialize(this, 0,0,0,&ghostTex);
+	home.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
 
 	return;
 }
@@ -280,7 +283,7 @@ void FreezeFrame::ai()
 		ps2 = 0;
 	}
 	if (ps3 == 2) {
-		ps2 = 0;
+		ps3 = 0;
 	}
 
 	if (pattern1[ps1].isFinished()) {
@@ -291,13 +294,13 @@ void FreezeFrame::ai()
 		pattern2[ps2].setActive();
 		ps2++;
 	}
-	if (pattern3[ps3].isFinished()) {
+	/*if (pattern3[ps3].isFinished()) {
 		pattern3[ps3].setActive();
 		ps3++;
-	}
+	}*/
 	pattern1[ps1].update(frameTime);
 	pattern2[ps2].update(frameTime);
-	pattern3[ps3].update(frameTime);
+	//pattern3[ps3].update(frameTime);
 }
 
 //=============================================================================

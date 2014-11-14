@@ -9,7 +9,7 @@ Ghost::Ghost():Actor(){
 	collisionType = COLLISION_TYPE::BOX;
 	colorFilter = GhostNS::COLOR;
 	setActive(false);
-	target = false;
+	target = true;
 	shoot = false;
 	pattern = 0;
 }
@@ -72,7 +72,10 @@ void Ghost::vectorTrack()
 void Ghost::ai(float time, Actor &t)
 { 
 	if(active) {
-		targetEntity = t;
+		if(target)
+			targetEntity = t;
+		else
+			targetEntity = game->getHome();
 
 		//VECTOR2 toPlayer = game->getPlayerLoc() - getCenter();
 		//float distSqrdToPlayer = D3DXVec2LengthSq(&toPlayer);
