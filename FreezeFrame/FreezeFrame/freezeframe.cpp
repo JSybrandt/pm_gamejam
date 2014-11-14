@@ -232,7 +232,7 @@ void FreezeFrame::initialize(HWND hwnd)
 	pattern1[5].setTimeForStep(2);
 	pattern1[6].setAction(DOWN);
 	pattern1[6].setTimeForStep(2);
-	pattern2[7].setAction(NONE);
+	pattern2[7].setAction(NA);
 	pattern2[7].setTimeForStep(5);
 
 	for (int i = 0; i< 8; i++)
@@ -254,7 +254,7 @@ void FreezeFrame::initialize(HWND hwnd)
 	pattern2[5].setTimeForStep(1);
 	pattern2[6].setAction(DOWN);
 	pattern2[6].setTimeForStep(1);
-	pattern2[7].setAction(NONE);
+	pattern2[7].setAction(NA);
 	pattern2[7].setTimeForStep(7);
 
 	for (int i = 0; i< 2; i++)

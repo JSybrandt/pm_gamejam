@@ -9,7 +9,7 @@
 //class PatternStep;
 
 #include "constants.h"
-#include "entity.h"
+#include "Actor.h"
 #include <cmath>
 #include <d3d9.h>
 #include <d3dx9.h>

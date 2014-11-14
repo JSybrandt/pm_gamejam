@@ -6,10 +6,10 @@ PatternStep::PatternStep()
 	timeInStep = 0;
 	entity = NULL;  
 	timeForStep = 0;
-	action = NONE;
+	action = NA;
 }
 
-void PatternStep::initialize(Player *e)
+void PatternStep::initialize(Ghost *e)
 {
 	entity = e;
 }
@@ -25,7 +25,7 @@ void PatternStep::update(float frameTime)
 	}
 	switch (action)
 	{
-	case NONE:
+	case NA:
 		entity->setVelocity(D3DXVECTOR2(0, 0));
 		break;
 	case UP:
@@ -51,6 +51,8 @@ void PatternStep::update(float frameTime)
 		break;
 	case EVADE:
 		entity->evade();
+		break;
+	case HOME:
 		break;
 	}
 }
