@@ -81,8 +81,9 @@ void Player::update(float &frametime)
 		
 		VECTOR2 intendedEnd = getCenter()+velocity*frametime;
 
-		intendedEnd = game->getRealEndLoc(getCenter(),intendedEnd,this);
-
+		if(game->getRealEndLoc(getCenter(),intendedEnd,this))
+			velocity = VECTOR2(0,0);
+		
 
 		Image::update(frametime);
 			

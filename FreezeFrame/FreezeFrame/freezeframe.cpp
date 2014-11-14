@@ -422,14 +422,27 @@ void FreezeFrame::level1Load()
 
 	player.setCenter(getCurrentWorldSize()/2);
 
-	for(int i = 0 ; i < getCurrentWorldSize().x;i+=50)
-		for(int h= 0 ; h < getCurrentWorldSize().y;h+=50)
+	for(int i = 25 ; i < getCurrentWorldSize().x-25;i+=50)
+		for(int h= 25 ; h < getCurrentWorldSize().y-25;h+=50)
 			spawnDot(VECTOR2(i,h));
 
-	spawnWall(VECTOR2(100,100),VECTOR2(100,100));
+	spawnWall(VECTOR2(0,0),VECTOR2(250,300));
+	spawnWall(VECTOR2(getCurrentWorldSize().x-200,0),VECTOR2(200,400));
 
-	
+	spawnWall(VECTOR2(getCurrentWorldSize().x-200,getCurrentWorldSize().y-400),VECTOR2(200,400));
+	spawnWall(VECTOR2(0,getCurrentWorldSize().y-300),VECTOR2(250,300));
 
+	spawnWall(VECTOR2(100,500),VECTOR2(500,100));
+	spawnWall(VECTOR2(getCurrentWorldSize().x-500,1000),VECTOR2(500,100));
+
+	spawnWall(VECTOR2(100,1500),VECTOR2(500,100));
+	spawnWall(VECTOR2(getCurrentWorldSize().x-500,2000),VECTOR2(500,100));
+
+	VECTOR2 v;
+	for(int i = 0 ; i < MAX_DOTS;i++)
+		for(int j = 0 ; j < MAX_WALLS; j++)
+			if(walls[j].collidesWith(dots[i],v))
+				dots[i].setActive(false);
 }
 
 void FreezeFrame::level2Load()
@@ -597,8 +610,9 @@ void FreezeFrame::deactivateAll()
 
 
 
-VECTOR2 FreezeFrame::getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor*a)
+bool FreezeFrame::getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor*a)
 {
+	VECTOR2 init = endLoc;
 	a->setCenter(endLoc);
 	VECTOR2 v;
 	for(int i = 0; i < MAX_WALLS; i++)
@@ -636,7 +650,7 @@ VECTOR2 FreezeFrame::getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor*a)
 
 	a->setCenter(endLoc);
 
-	return endLoc;
+	return endLoc != init;
 }
 
 void FreezeFrame::onPlayerDeath()
