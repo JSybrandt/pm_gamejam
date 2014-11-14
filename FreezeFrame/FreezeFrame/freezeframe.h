@@ -19,6 +19,7 @@ using std::string;
 #include "Ghost.h"
 #include "Particle.h"
 #include "Wall.h"
+#include "patternStep.h"
 
 namespace freezeFrameNS
 {
@@ -85,6 +86,7 @@ private:
 	TextureManager ghostTex;
 	TextureManager dotTex;
 
+
 	TextDX infoText;
 
 	
@@ -95,11 +97,22 @@ private:
 	Particle particles[MAX_PARTICLES];
 	Wall walls[MAX_WALLS];
 
+	PatternStep pattern1[8];
+	PatternStep pattern2[8];
+	PatternStep pattern3[2];
+
+	Ghost ghost1;
+	Ghost ghost2;
+	Ghost ghost3;
+
 	Controls P1Controls;
 	Player player;
 
 	float worldFrameTime;
 	float playerDeathCountdown;
+	int ps1;
+	int ps2;
+	int ps3;
 	
 
 	VECTOR2 screenLoc;

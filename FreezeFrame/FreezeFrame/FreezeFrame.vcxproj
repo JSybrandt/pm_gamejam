@@ -97,6 +97,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="freezeframe.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="patternStep.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="freezeframe.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="patternStep.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />

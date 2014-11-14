@@ -32,6 +32,9 @@ FreezeFrame::FreezeFrame()
 	infAmmoCheat=false;
 	showCredits = false;
 	textCooldown = 0;
+	ps1 = 0;
+	ps2 = 0;
+	ps3 = 0;
 
 	numLives = STARTING_LIVES;
 }
@@ -118,6 +121,68 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	level1Load();
 
+	if(!ghost1.initialize(this,64,64,4,&ghostTex))
+		throw GameError(-1,"FAILED TO MAKE DUDE!");
+	if(!ghost2.initialize(this,64,64,4,&ghostTex))
+		throw GameError(-1,"FAILED TO MAKE DUDE!");
+	if(!ghost3.initialize(this,64,64,4,&ghostTex))
+		throw GameError(-1,"FAILED TO MAKE DUDE!");
+
+	for (int i = 0; i< 8; i++)
+	{
+		pattern1[i].initialize(&ghost1);
+		pattern1[i].setActive();
+	}
+	pattern1[0].setAction(UP);
+	pattern1[0].setTimeForStep(2);
+	pattern1[1].setAction(RIGHT);
+	pattern1[1].setTimeForStep(2);
+	pattern1[2].setAction(DOWN);
+	pattern1[2].setTimeForStep(4);
+	pattern1[3].setAction(LEFT);
+	pattern1[3].setTimeForStep(4);
+	pattern1[4].setAction(UP);
+	pattern1[4].setTimeForStep(4);
+	pattern1[5].setAction(RIGHT);
+	pattern1[5].setTimeForStep(2);
+	pattern1[6].setAction(DOWN);
+	pattern1[6].setTimeForStep(2);
+	pattern2[7].setAction(NA);
+	pattern2[7].setTimeForStep(5);
+
+	for (int i = 0; i< 8; i++)
+	{
+		pattern2[i].initialize(&ghost2);
+		pattern2[i].setActive();
+	}
+
+	pattern2[0].setAction(UP);
+	pattern2[0].setTimeForStep(1);
+	pattern2[1].setAction(RIGHT);
+	pattern2[1].setTimeForStep(1);
+	pattern2[2].setAction(DOWN);
+	pattern2[2].setTimeForStep(2);
+	pattern2[3].setAction(LEFT);
+	pattern2[3].setTimeForStep(2);
+	pattern2[4].setAction(UP);
+	pattern2[4].setTimeForStep(2);
+	pattern2[5].setAction(RIGHT);
+	pattern2[5].setTimeForStep(1);
+	pattern2[6].setAction(DOWN);
+	pattern2[6].setTimeForStep(1);
+	pattern2[7].setAction(NA);
+	pattern2[7].setTimeForStep(7);
+
+	for (int i = 0; i< 2; i++)
+	{
+		pattern3[i].initialize(&ghost3);
+		pattern3[i].setActive();
+	}
+	pattern3[0].setAction(DELTA);
+	pattern3[0].setTimeForStep(7);
+	pattern3[1].setAction(HOME);
+	pattern3[1].setTimeForStep(8);
+
 	return;
 }
 
@@ -136,7 +201,7 @@ void FreezeFrame::update()
 
 
 	levelsUpdate();
-	
+
 }
 
 
@@ -186,7 +251,7 @@ void FreezeFrame::levelsUpdate()
 	for(int i = 0; i < MAX_GhostS; i++)
 	{
 		Ghosts[i].update(worldFrameTime);
-		
+
 	}
 
 	for(int i = 0 ; i < MAX_PARTICLES; i++)
@@ -202,9 +267,32 @@ void FreezeFrame::levelsUpdate()
 //=============================================================================
 void FreezeFrame::ai()
 {
-	for(int i = 0; i < MAX_GhostS; i++) {
-		Ghosts[i].ai(worldFrameTime, player);
+
+	if (ps1 == 9) {
+		ps1 = 0;
 	}
+	if (ps2 == 9) {
+		ps2 = 0;
+	}
+	if (ps3 == 3) {
+		ps3 = 0;
+	}
+
+	if (pattern1[ps1].isFinished()) {
+		pattern1[ps1].setActive();
+		ps1++;
+	}
+	if (pattern2[ps2].isFinished()) {
+		pattern2[ps2].setActive();
+		ps2++;
+	}
+	if (pattern3[ps3].isFinished()) {
+		pattern3[ps3].setActive();
+		ps3++;
+	}
+	pattern1[ps1].update(frameTime);
+	pattern2[ps2].update(frameTime);
+	pattern3[ps3].update(frameTime);
 }
 
 //=============================================================================
@@ -220,6 +308,7 @@ void FreezeFrame::collisions()
 			dots[i].setActive(false);
 			score++;
 			spawnParticleCloud(player.getCenter(),graphicsNS::YELLOW);
+
 		}
 
 	}
@@ -232,7 +321,6 @@ void FreezeFrame::collisions()
 			numLives--;
 			spawnParticleCloud(player.getCenter(),Ghosts[i].getColorFilter());
 		}
-
 	}
 		
 }
@@ -323,6 +411,41 @@ void FreezeFrame::level2Load()
 {
 	currentState = Level2;
 	deactivateAll();
+
+	player.setCenter(VECTOR2(100,100));
+
+
+	spawnWall(VECTOR2(300,0),VECTOR2(250,600));
+	spawnWall(VECTOR2(950,0),VECTOR2(600,180));
+	spawnWall(VECTOR2(1150,0),VECTOR2(300,300));
+	spawnWall(VECTOR2(550,450),VECTOR2(1100,150));
+	spawnWall(VECTOR2(1450,600),VECTOR2(200,800));
+	spawnWall(VECTOR2(550,0),VECTOR2(600,50));
+
+	spawnWall(VECTOR2(0,900),VECTOR2(300,700));
+	spawnWall(VECTOR2(300,1300),VECTOR2(250,300));
+	spawnWall(VECTOR2(0,1600),VECTOR2(1650,200));
+
+	spawnWall(VECTOR2(worldSizes[currentState].x - 1650,2450),VECTOR2(1800,200));
+	spawnWall(VECTOR2(650,2650),VECTOR2(1000,400));
+	spawnWall(VECTOR2(650,3050),VECTOR2(200,850));
+
+	spawnWall(worldSizes[currentState]-VECTOR2(550,550),VECTOR2(550,550));
+
+
+	spawnGhost(VECTOR2(1400,2000));
+	spawnGhost(VECTOR2(1300,2100));
+	//spawnGhost(VECTOR2(1350,2200));
+	spawnGhost(VECTOR2(1450,2350));
+
+	spawnGhost(VECTOR2(600,2000));
+	spawnGhost(VECTOR2(650,2100));
+	spawnGhost(VECTOR2(475,2375));
+
+	spawnGhost(VECTOR2(1000,3200));
+	spawnGhost(VECTOR2(1875,3000));
+	spawnGhost(VECTOR2(1400,4000));
+
 }
 
 void FreezeFrame::level3Load()
