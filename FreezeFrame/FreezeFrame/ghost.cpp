@@ -23,48 +23,7 @@ bool Ghost::initialize(FreezeFrame * g, int width, int height, int ncols, Textur
 
 void Ghost::update(float frameTime)
 {
-	if(getActive())
-	{
-		if(health <= 0) {
-			setActive(false);
-			audio->playCue(KILL1_CUE);
-		}
-
-		VECTOR2 endLoc = getCenter()+(getVelocity()*GhostNS::SPEED*frameTime);
-		endLoc = game->getRealEndLoc(getCenter(),endLoc);
-		setCenter(endLoc);
-		VECTOR2 aim(game->getPlayerLoc().x - endLoc.x,game->getPlayerLoc().y - endLoc.y);
-		float aimDir = atan2(aim.y,aim.x);
-
-		if(velocity != VECTOR2(0,0)) {
-			setRadians(atan2(velocity.y,velocity.x));
-			Actor::update(frameTime);
-		}
-
-		if(shoot && weaponCooldown <= 0){
-			//because we dont want to use the angle form player center
-			VECTOR2 bulletLoc = getCenter()+utilityNS::rotateVector(GhostNS::bulletDisplacement,aimDir); //
-			VECTOR2 bulletPath = jiggleVector(game->getPlayerLoc()) - bulletLoc;
-			float bulletAngle = atan2(bulletPath.y,bulletPath.x);
-
-			game->spawnBullet(bulletLoc,bulletAngle,getColorFilter(),false);
-			setRadians(bulletAngle);
-			weaponCooldown  = GhostNS::WEAPON_COOLDOWN;
-			recoilCooldown = GhostNS::RECOIL_TIME;
-
-			animComplete = false;
-			setCurrentFrame(0);
-			audio->playCue(PISTOL_CUE);
-		}
-		else
-			setRadians(aimDir);
-
-		weaponCooldown -= frameTime;
-		if(weaponCooldown < 0) weaponCooldown =0;
-
-		recoilCooldown -= frameTime;
-		if(recoilCooldown < 0)recoilCooldown = 0;
-	}
+	
 
 }
 

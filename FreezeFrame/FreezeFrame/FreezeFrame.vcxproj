@@ -89,21 +89,17 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="audio.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="constants.cpp" />
-    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ghost.cpp" />
     <ClCompile Include="graphics.cpp" />
-    <ClCompile Include="Guard.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="freezeframe.cpp" />
-    <ClCompile Include="LandMine.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
-    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="winmain.cpp" />
@@ -111,25 +107,19 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="audio.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="Controls.h" />
-    <ClInclude Include="Cursor.h" />
-    <ClInclude Include="Exit.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
+    <ClInclude Include="ghost.h" />
     <ClInclude Include="graphics.h" />
-    <ClInclude Include="Guard.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="freezeframe.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="LandMine.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
-    <ClInclude Include="Turret.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

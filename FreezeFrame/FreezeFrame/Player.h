@@ -70,7 +70,7 @@ public:
 	Player();
 	~Player();
 
-	bool initialize(FreezeFrame * game, Controls c, TextDX* t, int width, int height, int ncols, TextureManager *playerTM, TextureManager *feetTM, TextureManager *cylinderTM);
+	bool initialize(FreezeFrame * game, Controls c, TextDX* t, int width, int height, int ncols, TextureManager *playerTM);
 
 	void draw(VECTOR2 screenLoc);
 
@@ -80,11 +80,5 @@ public:
 
 	bool alive;
 
-	void pickUpGun();
 
-	void set(VECTOR2 loc);
-
-	bool readyToFire(){return weaponCooldown <= 0;};
-
-	void setBullets(int n){numBullets = n;}
 };

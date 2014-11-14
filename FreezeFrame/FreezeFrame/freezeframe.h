@@ -17,14 +17,8 @@ using std::string;
 #include "Actor.h"
 #include "Player.h"
 #include "Ghost.h"
-#include "Cursor.h"
-#include "Bullet.h"
 #include "Particle.h"
-#include "Exit.h"
-#include "Turret.h"
 #include "Wall.h"
-#include "LandMine.h"
-#include "Item.h"
 
 namespace freezeFrameNS
 {
@@ -54,6 +48,8 @@ namespace freezeFrameNS
 	const int STARTING_LIVES = 3;
 
 	const float INTRO_MUSIC_COUNTDOWN = 6;
+
+	const int MAX_DOTS = 1000;
 }
 
 
@@ -81,52 +77,23 @@ private:
 	TextureManager backgroundTex;   
 	TextureManager baseTex;
 	TextureManager manTex;
-	TextureManager walkTex;
-	TextureManager feetTex;
-	TextureManager turretTex; 
-	TextureManager bulletTex;   
-	TextureManager cursorTex;
+	
 	TextureManager particleTex;
-	TextureManager lineTex;
-	TextureManager exitTex;
+	
 	TextureManager wallTex;
-	TextureManager menuCursorTex;
-	TextureManager menuTex;
-	TextureManager mineTex;
-	TextureManager cylinderTex;
-	TextureManager dangerZoneTex;
-	TextureManager pauseTex;
-	TextureManager gunTex;
-	TextureManager controlTex;
-	TextureManager creditsTex;
-	TextureManager expTex;
-
-	Image creditsImage;
-	Image controlImage;
-	Image pause;
+	
+	TextureManager ghostTex;
+	TextureManager dotTex;
 
 	TextDX infoText;
 
-	Exit exit;
-
-
-	Image title;
-	Image subtitle;
-	Image menuItems[NUM_MENU_OPTIONS];
-	Image menuCursor;
-
-	Cursor cursor;
+	
 	Image   background;         // backdrop image
 
 	Ghost Ghosts[MAX_GhostS];
-	Turret turrets[MAX_TURRETS];
-	Actor  bases[MAX_TURRETS];
-	Bullet playerBullets[MAX_PLAYER_BULLETS];
-	Bullet enemyBullets[MAX_ENEMY_BULLETS];
+	Actor dots[MAX_DOTS];
 	Particle particles[MAX_PARTICLES];
 	Wall walls[MAX_WALLS];
-	LandMine mines[MAX_MINES];
-	Item items[MAX_ITEMS];
 
 	Controls P1Controls;
 	Player player;
@@ -151,6 +118,7 @@ private:
 
 	float introMusicCoutdown; 
 
+	int score; 
 
 public:
 	// Constructor
@@ -172,24 +140,18 @@ public:
 	//places the screen so the selected location is in the middle area (might not center)
 	void updateScreen(VECTOR2 center); 
 
-	Bullet* spawnBullet(VECTOR2 loc, float dir,COLOR_ARGB c, bool playerBullet);
-	Particle* spawnParticle(VECTOR2 loc,VECTOR2 vel, COLOR_ARGB c);
-	Turret* spawnTurret(VECTOR2 loc, float dir);
+	
 	Wall* spawnWall(VECTOR2 loc, VECTOR2 size);
-	LandMine* spawnMine(VECTOR2 loc);
-	Item* spawnItem(VECTOR2 loc, Item::ItemType t);
+	Actor* spawnDot(VECTOR2 loc);
 	Ghost* spawnGhost(VECTOR2 loc);//TODO: add stuff for AI
 	void spawnParticleCloud(VECTOR2 loc, COLOR_ARGB c);
 	void spawnParticleCone(VECTOR2 loc, float dir, COLOR_ARGB c);
+	Particle* spawnParticle(VECTOR2 loc,VECTOR2 vel, COLOR_ARGB c);
 
-	void menuLoad();
-	void menuUpdate(bool reset = false);
-	void menuRender();
 
 	void level1Load();
 	void level2Load();
 	void level3Load();
-	void feelingLuckyLoad();
 
 	void levelsUpdate();
 	void levelsRender();
@@ -208,11 +170,10 @@ public:
 
 	VECTOR2 getCurrentWorldSize(){return worldSizes[currentState];}
 
-	VECTOR2 getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc);
+	VECTOR2 getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor* a);
 
 	void onPlayerDeath();
 
-	Item* getItemUnderPlayer();
 
 
 	bool l2pCheat;

@@ -31,7 +31,7 @@
 const char BACKGROUND_IMAGE[] = "pictures\\background.png";
 const char WALK_IMAGE[] = "pictures\\walkingAni.png";
 const char FEET_IMAGE[] = "pictures\\feetAni.png";
-const char MAN_IMAGE[] = "pictures\\shootingAni.png";
+const char PLAYER_IMAGE[] = "pictures\\pacman.png";
 const char TURRET_IMAGE[] = "pictures\\turretAni3.png";
 const char BASE_IMAGE[] = "pictures\\turretBase.png";
 const char BULLET_IMAGE[] = "pictures\\bullet.png";
@@ -48,6 +48,8 @@ const char GUN_IMAGE[]="pictures\\gun.png";
 const char CONTROLS_IMAGE[] = "pictures\\controls.png";
 const char CREDITS_IMAGE[] = "pictures\\credits.png";
 const char EXP_IMAGE[]="pictures\\explode.png";
+const char DOT_IMAGE[]="pictures\\dot.png";
+const char GHOST_IMAGE[]="pictures\\ghost.png";
 
 const char MENU_IMAGE[] = "pictures\\menu.png";
 const char MENU_CURSOR_IMAGE[] = "pictures\\menuCursor.png";
