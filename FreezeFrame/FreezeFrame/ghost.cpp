@@ -2,20 +2,21 @@
 #include"freezeframe.h"
 
 Ghost::Ghost():Actor(){
-	edge.top = -32;
-	edge.bottom = 32;
-	edge.left = -12;
-	edge.right = 12;
+	edge.top = -192;
+	edge.bottom = 0;
+	edge.left = -192;
+	edge.right = 0;
+	radius = 12;
 	collisionType = COLLISION_TYPE::BOX;
 	colorFilter = GhostNS::COLOR;
 	setActive(false);
 	target = true;
 	shoot = false;
-	pattern = 0;
+	pattern = false;
 }
 Ghost::~Ghost(){}
 
-bool Ghost::initialize(FreezeFrame * g, int width, int height, int ncols, TextureManager *textureM, int pattern)
+bool Ghost::initialize(FreezeFrame * g, int width, int height, int ncols, TextureManager *textureM, bool pattern)
 {
 	this->pattern = pattern;
 	game = g;
@@ -50,12 +51,12 @@ void Ghost::deltaTrack()
 
 	if(targetEntity.getCenterX() < getCenterX())
 		v.x = -1;
-	else if(targetEntity.getCenterX() > getCenterX())
+	if(targetEntity.getCenterX() > getCenterX())
 		v.x = 1;
 
-	else if(targetEntity.getCenterY() < getCenterY())
+	if(targetEntity.getCenterY() < getCenterY())
 		v.y = -1;
-	else if(targetEntity.getCenterY() > getCenterY())
+	if(targetEntity.getCenterY() > getCenterY())
 		v.y = 1;
 
 	D3DXVec2Normalize(&v, &v);
@@ -72,10 +73,15 @@ void Ghost::vectorTrack()
 void Ghost::ai(float time, Actor &t)
 { 
 	if(active) {
-		if(target)
+		if(pattern == false) {
+			targetEntity = t;
+			vectorTrack();
+		}
+
+		/*if(target)
 			targetEntity = t;
 		else
-			targetEntity = game->getHome();
+			targetEntity = game->getHome();*/
 
 		//VECTOR2 toPlayer = game->getPlayerLoc() - getCenter();
 		//float distSqrdToPlayer = D3DXVec2LengthSq(&toPlayer);

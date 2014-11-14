@@ -121,9 +121,9 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	level1Load();
 
-	if(!ghost1.initialize(this,128,128,0,&ghostTex))
+	if(!ghost1.initialize(this,128,128,0,&ghostTex, true))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
-	if(!ghost2.initialize(this,128,128,0,&ghostTex))
+	if(!ghost2.initialize(this,128,128,0,&ghostTex, true))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
 	if(!ghost3.initialize(this,128,128,0,&ghostTex))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
@@ -173,15 +173,15 @@ void FreezeFrame::initialize(HWND hwnd)
 	pattern2[7].setAction(NA);
 	pattern2[7].setTimeForStep(7);
 
-	for (int i = 0; i< 2; i++)
-	{
-		pattern3[i].initialize(&ghost3);
-		pattern3[i].setActive();
-	}
-	pattern3[0].setAction(DELTA);
-	pattern3[0].setTimeForStep(2);
-	pattern3[1].setAction(HOME);
-	pattern3[1].setTimeForStep(2);
+	//for (int i = 0; i< 2; i++)
+	//{
+	//	pattern3[i].initialize(&ghost3);
+	//	pattern3[i].setActive();
+	//}
+	//pattern3[0].setAction(DELTA);
+	//pattern3[0].setTimeForStep(2);
+	//pattern3[1].setAction(HOME);
+	//pattern3[1].setTimeForStep(2);
 
 	home.initialize(this, 0,0,0,&ghostTex);
 	home.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
@@ -282,9 +282,9 @@ void FreezeFrame::ai()
 	if (ps2 == 8) {
 		ps2 = 0;
 	}
-	if (ps3 == 2) {
-		ps3 = 0;
-	}
+	//if (ps3 == 2) {
+	//	ps3 = 0;
+	//}
 
 	if (pattern1[ps1].isFinished()) {
 		pattern1[ps1].setActive();
@@ -294,13 +294,13 @@ void FreezeFrame::ai()
 		pattern2[ps2].setActive();
 		ps2++;
 	}
-	if (pattern3[ps3].isFinished()) {
-		pattern3[ps3].setActive();
-		ps3++;
-	}
+	//if (pattern3[ps3].isFinished()) {
+	//	pattern3[ps3].setActive();
+	//	ps3++;
+	//}
 	pattern1[ps1].update(frameTime);
 	pattern2[ps2].update(frameTime);
-	pattern3[ps3].update(frameTime);
+	//pattern3[ps3].update(frameTime);
 }
 
 //=============================================================================
@@ -321,16 +321,25 @@ void FreezeFrame::collisions()
 
 	}
 
-	for(int i = 0; i < MAX_GhostS;i++)
-	{
-		if(player.collidesWith(Ghosts[i],v))
+		if(player.collidesWith(ghost1,v))
 		{
 			onPlayerDeath();
 			numLives--;
-			spawnParticleCloud(player.getCenter(),Ghosts[i].getColorFilter());
+			spawnParticleCloud(player.getCenter(),ghost1.getColorFilter());
 		}
-	}
 		
+		if(player.collidesWith(ghost2,v))
+		{
+			onPlayerDeath();
+			numLives--;
+			spawnParticleCloud(player.getCenter(),ghost2.getColorFilter());
+		}
+		if(player.collidesWith(ghost3,v))
+		{
+			onPlayerDeath();
+			numLives--;
+			spawnParticleCloud(player.getCenter(),ghost3.getColorFilter());
+		}
 }
 
 //=============================================================================
