@@ -145,13 +145,13 @@ void FreezeFrame::initialize(HWND hwnd)
 	if(!cursor.initialize(this,0,0,0,&cursorTex))
 		throw GameError(25,"Failed to init cursor");
 
-	for(int i = 0; i < MAX_GUARDS; i++)
+	for(int i = 0; i < MAX_GhostS; i++)
 	{
-		if(!guards[i].initialize(this,64,64,4,&walkTex))
+		if(!Ghosts[i].initialize(this,64,64,4,&walkTex))
 			throw GameError(-1*i,"FAILED TO MAKE DUDE!");
-		guards[i].setFrames(0, 6);   // animation frames
-		guards[i].setCurrentFrame(0);     // starting frame
-		guards[i].setFrameDelay(0.05f); //0.08 seems appriopriate
+		Ghosts[i].setFrames(0, 6);   // animation frames
+		Ghosts[i].setCurrentFrame(0);     // starting frame
+		Ghosts[i].setFrameDelay(0.05f); //0.08 seems appriopriate
 	}
 
 	for(int i = 0; i < MAX_TURRETS; i++)
@@ -374,9 +374,9 @@ void FreezeFrame::levelsUpdate()
 
 	cursor.update(worldFrameTime);
 
-	for(int i = 0; i < MAX_GUARDS; i++)
+	for(int i = 0; i < MAX_GhostS; i++)
 	{
-		guards[i].update(worldFrameTime);
+		Ghosts[i].update(worldFrameTime);
 		
 	}
 
@@ -409,8 +409,8 @@ void FreezeFrame::levelsUpdate()
 //=============================================================================
 void FreezeFrame::ai()
 {
-	for(int i = 0; i < MAX_GUARDS; i++) {
-		guards[i].ai(worldFrameTime, player);
+	for(int i = 0; i < MAX_GhostS; i++) {
+		Ghosts[i].ai(worldFrameTime, player);
 	}
 }
 
@@ -425,11 +425,11 @@ void FreezeFrame::collisions()
 		for(int i = 0; i < MAX_PLAYER_BULLETS; i++)
 		{
 
-			for(int j = 0 ; j < MAX_GUARDS; j++)
-				if(playerBullets[i].collidesWith(guards[j],collisionVector))
+			for(int j = 0 ; j < MAX_GhostS; j++)
+				if(playerBullets[i].collidesWith(Ghosts[j],collisionVector))
 				{
-					guards[j].setHealth(0);
-					spawnParticleCloud(guards[j].getCenter(),graphicsNS::RED);
+					Ghosts[j].setHealth(0);
+					spawnParticleCloud(Ghosts[j].getCenter(),graphicsNS::RED);
 					playerBullets[i].setActive(false);
 				}
 
@@ -584,9 +584,9 @@ void FreezeFrame::levelsRender()
 		enemyBullets[i].draw(screenLoc);
 	}
 
-	for(int i = 0; i < MAX_GUARDS; i++)
+	for(int i = 0; i < MAX_GhostS; i++)
 	{
-		guards[i].draw(screenLoc,graphicsNS::FILTER);
+		Ghosts[i].draw(screenLoc,graphicsNS::FILTER);
 	}
 
 	for(int i = 0; i < MAX_TURRETS; i++)
@@ -749,18 +749,18 @@ void FreezeFrame::level2Load()
 	spawnTurret(VECTOR2(500,3500),PI);
 	spawnTurret(VECTOR2(500,3700),PI);
 
-	spawnGuard(VECTOR2(1400,2000));
-	spawnGuard(VECTOR2(1300,2100));
-	//spawnGuard(VECTOR2(1350,2200));
-	spawnGuard(VECTOR2(1450,2350));
+	spawnGhost(VECTOR2(1400,2000));
+	spawnGhost(VECTOR2(1300,2100));
+	//spawnGhost(VECTOR2(1350,2200));
+	spawnGhost(VECTOR2(1450,2350));
 
-	spawnGuard(VECTOR2(600,2000));
-	spawnGuard(VECTOR2(650,2100));
-	spawnGuard(VECTOR2(475,2375));
+	spawnGhost(VECTOR2(600,2000));
+	spawnGhost(VECTOR2(650,2100));
+	spawnGhost(VECTOR2(475,2375));
 
-	spawnGuard(VECTOR2(1000,3200));
-	spawnGuard(VECTOR2(1875,3000));
-	spawnGuard(VECTOR2(1400,4000));
+	spawnGhost(VECTOR2(1000,3200));
+	spawnGhost(VECTOR2(1875,3000));
+	spawnGhost(VECTOR2(1400,4000));
 
 
 	for(int i = 400; i < 1400; i+=200)
@@ -840,10 +840,10 @@ void FreezeFrame::level3Load()
 	Wall* w22 = spawnWall(VECTOR2(50,0),VECTOR2(worldSizes[currentState].y-100, 50)); //Wall along right side
 
 	//Gaurds spawn
-	spawnGuard(VECTOR2(100,100));
-	spawnGuard(VECTOR2(100,200));
-	spawnGuard(VECTOR2(900,100));
-	spawnGuard(VECTOR2(900,200));
+	spawnGhost(VECTOR2(100,100));
+	spawnGhost(VECTOR2(100,200));
+	spawnGhost(VECTOR2(900,100));
+	spawnGhost(VECTOR2(900,200));
 
 	spawnMine(VECTOR2(725,1625)); //Entrance mine
 	spawnMine(VECTOR2(125,950));
@@ -943,14 +943,14 @@ Turret* FreezeFrame::spawnTurret(VECTOR2 loc, float dir)
 	return nullptr;
 }
 
-Guard* FreezeFrame::spawnGuard(VECTOR2 loc)
+Ghost* FreezeFrame::spawnGhost(VECTOR2 loc)
 {
-	for(int i = 0; i < MAX_GUARDS; i++)
+	for(int i = 0; i < MAX_GhostS; i++)
 	{
-		if(!guards[i].getActive())
+		if(!Ghosts[i].getActive())
 		{
-			guards[i].create(loc);
-			return &guards[i];
+			Ghosts[i].create(loc);
+			return &Ghosts[i];
 		}
 	}
 
@@ -1037,8 +1037,8 @@ void FreezeFrame::spawnParticleCone(VECTOR2 loc,float dir, COLOR_ARGB c)
 
 void FreezeFrame::deactivateAll()
 {
-	for(int i = 0 ; i < MAX_GUARDS; i++)
-		guards[i].setActive(false);
+	for(int i = 0 ; i < MAX_GhostS; i++)
+		Ghosts[i].setActive(false);
 	for(int i = 0 ; i < MAX_TURRETS; i++)
 		turrets[i].setActive(false);
 	for(int i = 0 ; i < MAX_PLAYER_BULLETS; i++)

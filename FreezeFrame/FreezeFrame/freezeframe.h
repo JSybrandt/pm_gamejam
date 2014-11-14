@@ -16,7 +16,7 @@ using std::string;
 #include "Controls.h"
 #include "Actor.h"
 #include "Player.h"
-#include "Guard.h"
+#include "Ghost.h"
 #include "Cursor.h"
 #include "Bullet.h"
 #include "Particle.h"
@@ -28,7 +28,7 @@ using std::string;
 
 namespace freezeFrameNS
 {
-	const int MAX_GUARDS = 100;
+	const int MAX_GhostS = 100;
 	const int MAX_TURRETS = 100;
 	const int MAX_PLAYER_BULLETS = 100;
 	const int MAX_ENEMY_BULLETS = 1000;
@@ -118,7 +118,7 @@ private:
 	Cursor cursor;
 	Image   background;         // backdrop image
 
-	Guard guards[MAX_GUARDS];
+	Ghost Ghosts[MAX_GhostS];
 	Turret turrets[MAX_TURRETS];
 	Actor  bases[MAX_TURRETS];
 	Bullet playerBullets[MAX_PLAYER_BULLETS];
@@ -178,7 +178,7 @@ public:
 	Wall* spawnWall(VECTOR2 loc, VECTOR2 size);
 	LandMine* spawnMine(VECTOR2 loc);
 	Item* spawnItem(VECTOR2 loc, Item::ItemType t);
-	Guard* spawnGuard(VECTOR2 loc);//TODO: add stuff for AI
+	Ghost* spawnGhost(VECTOR2 loc);//TODO: add stuff for AI
 	void spawnParticleCloud(VECTOR2 loc, COLOR_ARGB c);
 	void spawnParticleCone(VECTOR2 loc, float dir, COLOR_ARGB c);
 
