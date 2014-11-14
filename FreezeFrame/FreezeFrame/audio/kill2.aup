@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="kill2_data" version="1.3.0" audacityversion="2.0.6" sel0="0.5125659864" sel1="0.5125659864" vpos="0" h="0.0000000000" zoom="376.5368852459" rate="44100.0" snapto="off" selectionformat="hh:mm:ss + milliseconds">
+	<tags>
+		<tag name="Length" value="1532"/>
+		<tag name="TITLE" value="http://www.freesfx.co.uk"/>
+		<tag name="Software" value="LAME 32bits version 3.99 (http://lame.sf.net)"/>
+	</tags>
+	<wavetrack name="kill2" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="22604">
+				<waveblock start="0">
+					<simpleblockfile filename="e00000bd.au" len="22604" min="-0.890903" max="0.841789" rms="0.089985"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="kill2" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="22604">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000c2b.au" len="22604" min="-0.899639" max="0.88935" rms="0.089517"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
