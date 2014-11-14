@@ -31,6 +31,9 @@ FreezeFrame::FreezeFrame()
 	infAmmoCheat=false;
 	showCredits = false;
 	textCooldown = 0;
+	ps1 = 0;
+	ps2 = 0;
+	ps3 = 0;
 
 	numLives = STARTING_LIVES;
 }
@@ -128,7 +131,7 @@ void FreezeFrame::initialize(HWND hwnd)
 	for(int i = 0; i < freezeFrameNS::NUM_MENU_OPTIONS; i++)
 	{
 		if(!menuItems[i].initialize(graphics,MENU_CELL_WIDTH,MENU_CELL_HEIGHT,1,&menuTex))
-		throw GameError(-1*i,"Failed to init menu item");
+			throw GameError(-1*i,"Failed to init menu item");
 
 		menuItems[i].setCurrentFrame(MENU_PLAY+i);
 	}
@@ -206,12 +209,18 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	currentState = TitleScreen;
 	menuLoad();
-	
+
 	ShowCursor(false);
 
 	audio->playCue(OPENING_CUE);
 	introMusicCoutdown = INTRO_MUSIC_COUNTDOWN;
 
+	if(!ghost1.initialize(this,64,64,4,&walkTex))
+		throw GameError(-1,"FAILED TO MAKE DUDE!");
+	if(!ghost2.initialize(this,64,64,4,&walkTex))
+		throw GameError(-1,"FAILED TO MAKE DUDE!");
+	if(!ghost3.initialize(this,64,64,4,&walkTex))
+		throw GameError(-1,"FAILED TO MAKE DUDE!");
 
 	for (int i = 0; i< 8; i++)
 	{
@@ -237,9 +246,10 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	for (int i = 0; i< 8; i++)
 	{
-		pattern2[i].initialize(&ghost1);
+		pattern2[i].initialize(&ghost2);
 		pattern2[i].setActive();
 	}
+
 	pattern2[0].setAction(UP);
 	pattern2[0].setTimeForStep(1);
 	pattern2[1].setAction(RIGHT);
@@ -259,7 +269,7 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	for (int i = 0; i< 2; i++)
 	{
-		pattern3[i].initialize(&ghost1);
+		pattern3[i].initialize(&ghost3);
 		pattern3[i].setActive();
 	}
 	pattern3[0].setAction(DELTA);
@@ -290,7 +300,7 @@ void FreezeFrame::update()
 	default:
 		levelsUpdate();
 	}
-	
+
 }
 
 void FreezeFrame::menuUpdate(bool reset)
@@ -432,7 +442,7 @@ void FreezeFrame::levelsUpdate()
 	for(int i = 0; i < MAX_GhostS; i++)
 	{
 		Ghosts[i].update(worldFrameTime);
-		
+
 	}
 
 	for(int i = 0 ; i < MAX_PARTICLES; i++)
@@ -464,9 +474,32 @@ void FreezeFrame::levelsUpdate()
 //=============================================================================
 void FreezeFrame::ai()
 {
-	for(int i = 0; i < MAX_GhostS; i++) {
-		Ghosts[i].ai(worldFrameTime, player);
+
+	if (ps1 == 9) {
+		ps1 = 0;
 	}
+	if (ps2 == 9) {
+		ps2 = 0;
+	}
+	if (ps3 == 3) {
+		ps3 = 0;
+	}
+
+	if (pattern1[ps1].isFinished()) {
+		pattern1[ps1].setActive();
+		ps1++;
+	}
+	if (pattern2[ps2].isFinished()) {
+		pattern2[ps2].setActive();
+		ps2++;
+	}
+	if (pattern3[ps3].isFinished()) {
+		pattern3[ps3].setActive();
+		ps3++;
+	}
+	pattern1[ps1].update(frameTime);
+	pattern2[ps2].update(frameTime);
+	pattern3[ps3].update(frameTime);
 }
 
 //=============================================================================
@@ -488,30 +521,30 @@ void FreezeFrame::collisions()
 					playerBullets[i].setActive(false);
 				}
 
-			for(int j = 0 ; j < MAX_TURRETS; j++)
-				if(playerBullets[i].collidesWith(turrets[j],collisionVector))
-				{
-					turrets[j].hit();
-					playerBullets[i].setActive(false);
-				}
+				for(int j = 0 ; j < MAX_TURRETS; j++)
+					if(playerBullets[i].collidesWith(turrets[j],collisionVector))
+					{
+						turrets[j].hit();
+						playerBullets[i].setActive(false);
+					}
 
-			for(int j = 0; j < MAX_WALLS; j++)
-				if(playerBullets[i].collidesWith(walls[j],collisionVector))
-				{
-					playerBullets[i].setActive(false);
-				}
+					for(int j = 0; j < MAX_WALLS; j++)
+						if(playerBullets[i].collidesWith(walls[j],collisionVector))
+						{
+							playerBullets[i].setActive(false);
+						}
 
-			//leaves screen
-			if(playerBullets[i].getCenter().x < 0 || playerBullets[i].getCenter().x > worldSizes[currentState].x || 
-			   playerBullets[i].getCenter().y < 0 || playerBullets[i].getCenter().y > worldSizes[currentState].y)
-			   playerBullets[i].setActive(false);
+						//leaves screen
+						if(playerBullets[i].getCenter().x < 0 || playerBullets[i].getCenter().x > worldSizes[currentState].x || 
+							playerBullets[i].getCenter().y < 0 || playerBullets[i].getCenter().y > worldSizes[currentState].y)
+							playerBullets[i].setActive(false);
 		}
 
 		for(int i = 0; i < MAX_ENEMY_BULLETS; i++)
 		{
 			if(enemyBullets[i].getCenter().x < 0 || enemyBullets[i].getCenter().x > worldSizes[currentState].x || 
-			   enemyBullets[i].getCenter().y < 0 || enemyBullets[i].getCenter().y > worldSizes[currentState].y)
-			   enemyBullets[i].setActive(false);
+				enemyBullets[i].getCenter().y < 0 || enemyBullets[i].getCenter().y > worldSizes[currentState].y)
+				enemyBullets[i].setActive(false);
 
 			if(enemyBullets[i].collidesWith(player,collisionVector)) {
 				onPlayerDeath();
@@ -531,41 +564,41 @@ void FreezeFrame::collisions()
 				//player.setCenter(player.getCenter()-collisionVector);
 			}
 
-		for(int i = 0; i < MAX_MINES; i++)
-		{
-			//if a landmine blew up a player
-			if(player.collidesWith(mines[i],collisionVector))
+			for(int i = 0; i < MAX_MINES; i++)
 			{
-				mines[i].wasSteppedOn();
-				if(mines[i].getDangerous())
-					onPlayerDeath(); //TODO:something cool on death
-			}			
-		}
-
-		if(player.collidesWith(exit,collisionVector))
-		{
-			switch (currentState)
-			{
-			case FreezeFrame::Level1:
-				level2Load();
-				break;
-			case FreezeFrame::Level2:
-				level3Load();
-				break;
-			case FreezeFrame::Level3:
-				//audio->stopCue(MAIN_LOOP_CUE);
-				audio->playCue(END_CUE);
-				showCredits = true;
-				menuLoad();
-				break;
-			case FreezeFrame::RestartScreen:
-				break;
-			case FeelingLucky:
-				menuLoad();
-			default:
-				break;
+				//if a landmine blew up a player
+				if(player.collidesWith(mines[i],collisionVector))
+				{
+					mines[i].wasSteppedOn();
+					if(mines[i].getDangerous())
+						onPlayerDeath(); //TODO:something cool on death
+				}			
 			}
-		}
+
+			if(player.collidesWith(exit,collisionVector))
+			{
+				switch (currentState)
+				{
+				case FreezeFrame::Level1:
+					level2Load();
+					break;
+				case FreezeFrame::Level2:
+					level3Load();
+					break;
+				case FreezeFrame::Level3:
+					//audio->stopCue(MAIN_LOOP_CUE);
+					audio->playCue(END_CUE);
+					showCredits = true;
+					menuLoad();
+					break;
+				case FreezeFrame::RestartScreen:
+					break;
+				case FeelingLucky:
+					menuLoad();
+				default:
+					break;
+				}
+			}
 	}
 
 }
@@ -604,7 +637,7 @@ void FreezeFrame::menuRender()
 	}
 
 	menuCursor.draw(UIScreenLoc);
-	
+
 
 	if(textCooldown > 0)
 	{
@@ -838,7 +871,7 @@ void FreezeFrame::level2Load()
 
 	exit.setCenter(VECTOR2(1875,2760));
 	exit.update(0);
-	
+
 }
 
 void FreezeFrame::level3Load()

@@ -144,6 +144,9 @@ private:
 
 	float worldFrameTime;
 	float playerDeathCountdown;
+	int ps1;
+	int ps2;
+	int ps3;
 	
 
 	VECTOR2 screenLoc;
