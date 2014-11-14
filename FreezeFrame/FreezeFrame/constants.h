@@ -132,6 +132,7 @@ const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 fr
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
 const enum COLLISION_TYPE {NONE, CIRCLE, BOX, ROTATED_BOX};
 const enum WEAPON {ROCK, MISSILE, PLANET};
+const enum PATTERN_STEP_ACTION {NONE, UP, DOWN, LEFT, RIGHT, UPPERLEFT, TRACK, DELTA, EVADE, HOME};
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used

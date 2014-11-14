@@ -212,6 +212,61 @@ void FreezeFrame::initialize(HWND hwnd)
 	audio->playCue(OPENING_CUE);
 	introMusicCoutdown = INTRO_MUSIC_COUNTDOWN;
 
+
+	for (int i = 0; i< 8; i++)
+	{
+		pattern1[i].initialize(&ghost1);
+		pattern1[i].setActive();
+	}
+	pattern1[0].setAction(UP);
+	pattern1[0].setTimeForStep(2);
+	pattern1[1].setAction(RIGHT);
+	pattern1[1].setTimeForStep(2);
+	pattern1[2].setAction(DOWN);
+	pattern1[2].setTimeForStep(4);
+	pattern1[3].setAction(LEFT);
+	pattern1[3].setTimeForStep(4);
+	pattern1[4].setAction(UP);
+	pattern1[4].setTimeForStep(4);
+	pattern1[5].setAction(RIGHT);
+	pattern1[5].setTimeForStep(2);
+	pattern1[6].setAction(DOWN);
+	pattern1[6].setTimeForStep(2);
+	pattern2[7].setAction(NONE);
+	pattern2[7].setTimeForStep(5);
+
+	for (int i = 0; i< 8; i++)
+	{
+		pattern2[i].initialize(&ghost1);
+		pattern2[i].setActive();
+	}
+	pattern2[0].setAction(UP);
+	pattern2[0].setTimeForStep(1);
+	pattern2[1].setAction(RIGHT);
+	pattern2[1].setTimeForStep(1);
+	pattern2[2].setAction(DOWN);
+	pattern2[2].setTimeForStep(2);
+	pattern2[3].setAction(LEFT);
+	pattern2[3].setTimeForStep(2);
+	pattern2[4].setAction(UP);
+	pattern2[4].setTimeForStep(2);
+	pattern2[5].setAction(RIGHT);
+	pattern2[5].setTimeForStep(1);
+	pattern2[6].setAction(DOWN);
+	pattern2[6].setTimeForStep(1);
+	pattern2[7].setAction(NONE);
+	pattern2[7].setTimeForStep(7);
+
+	for (int i = 0; i< 2; i++)
+	{
+		pattern3[i].initialize(&ghost1);
+		pattern3[i].setActive();
+	}
+	pattern3[0].setAction(DELTA);
+	pattern3[0].setTimeForStep(7);
+	pattern3[1].setAction(HOME);
+	pattern3[1].setTimeForStep(8);
+
 	return;
 }
 

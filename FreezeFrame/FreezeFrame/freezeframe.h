@@ -25,6 +25,7 @@ using std::string;
 #include "Wall.h"
 #include "LandMine.h"
 #include "Item.h"
+#include "patternStep.h"
 
 namespace freezeFrameNS
 {
@@ -101,6 +102,8 @@ private:
 	TextureManager creditsTex;
 	TextureManager expTex;
 
+
+
 	Image creditsImage;
 	Image controlImage;
 	Image pause;
@@ -127,6 +130,14 @@ private:
 	Wall walls[MAX_WALLS];
 	LandMine mines[MAX_MINES];
 	Item items[MAX_ITEMS];
+
+	PatternStep pattern1[8];
+	PatternStep pattern2[8];
+	PatternStep pattern3[2];
+
+	Ghost ghost1;
+	Ghost ghost2;
+	Ghost ghost3;
 
 	Controls P1Controls;
 	Player player;

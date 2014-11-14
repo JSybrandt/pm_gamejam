@@ -25,6 +25,7 @@ public:
 	int numBullets;
 	float weaponCooldown;
 	float recoilCooldown;
+	int pattern;
 
 	float personalChaseDistanceSQRD;
 	float personalEngageDistanceSQRD;
@@ -33,7 +34,7 @@ public:
 	Ghost();
 	~Ghost();
 
-	bool initialize(FreezeFrame * game, int width, int height, int ncols, TextureManager *textureM);
+	bool initialize(FreezeFrame * game, int width, int height, int ncols, TextureManager *textureM, int pattern = 0);
 
 	void update(float frametime);
 
@@ -43,8 +44,8 @@ public:
 
 	bool getHunting() {return target;}
 
-	void vectorTrack(float time);
-	void deltaTrack(float time);
-	void evade(float time);
+	void vectorTrack();
+	void deltaTrack();
+	void evade();
 
 };

@@ -11,11 +11,13 @@ Ghost::Ghost():Actor(){
 	setActive(false);
 	target = false;
 	shoot = false;
+	pattern = 0;
 }
 Ghost::~Ghost(){}
 
-bool Ghost::initialize(FreezeFrame * g, int width, int height, int ncols, TextureManager *textureM)
+bool Ghost::initialize(FreezeFrame * g, int width, int height, int ncols, TextureManager *textureM, int pattern)
 {
+	this->pattern = pattern;
 	game = g;
 	return Actor::initialize(game,width,height,ncols,textureM);
 }
@@ -25,57 +27,57 @@ void Ghost::update(float frameTime)
 {
 	if(getActive())
 	{
-		if(health <= 0) {
+		/*if(health <= 0) {
 			setActive(false);
 			audio->playCue(KILL1_CUE);
-		}
+		}*/
 
 		VECTOR2 endLoc = getCenter()+(getVelocity()*GhostNS::SPEED*frameTime);
 		endLoc = game->getRealEndLoc(getCenter(),endLoc);
 		setCenter(endLoc);
-		VECTOR2 aim(game->getPlayerLoc().x - endLoc.x,game->getPlayerLoc().y - endLoc.y);
-		float aimDir = atan2(aim.y,aim.x);
+		//VECTOR2 aim(game->getPlayerLoc().x - endLoc.x,game->getPlayerLoc().y - endLoc.y);
+		//float aimDir = atan2(aim.y,aim.x);
 
-		if(velocity != VECTOR2(0,0)) {
-			setRadians(atan2(velocity.y,velocity.x));
-			Actor::update(frameTime);
-		}
+		//if(velocity != VECTOR2(0,0)) {
+		//	setRadians(atan2(velocity.y,velocity.x));
+		//	Actor::update(frameTime);
+		//}
 
-		if(shoot && weaponCooldown <= 0){
-			//because we dont want to use the angle form player center
-			VECTOR2 bulletLoc = getCenter()+utilityNS::rotateVector(GhostNS::bulletDisplacement,aimDir); //
-			VECTOR2 bulletPath = jiggleVector(game->getPlayerLoc()) - bulletLoc;
-			float bulletAngle = atan2(bulletPath.y,bulletPath.x);
+		//if(shoot && weaponCooldown <= 0){
+		//	//because we dont want to use the angle form player center
+		//	VECTOR2 bulletLoc = getCenter()+utilityNS::rotateVector(GhostNS::bulletDisplacement,aimDir); //
+		//	VECTOR2 bulletPath = jiggleVector(game->getPlayerLoc()) - bulletLoc;
+		//	float bulletAngle = atan2(bulletPath.y,bulletPath.x);
 
-			game->spawnBullet(bulletLoc,bulletAngle,getColorFilter(),false);
-			setRadians(bulletAngle);
-			weaponCooldown  = GhostNS::WEAPON_COOLDOWN;
-			recoilCooldown = GhostNS::RECOIL_TIME;
+		//	game->spawnBullet(bulletLoc,bulletAngle,getColorFilter(),false);
+		//	setRadians(bulletAngle);
+		//	weaponCooldown  = GhostNS::WEAPON_COOLDOWN;
+		//	recoilCooldown = GhostNS::RECOIL_TIME;
 
-			animComplete = false;
-			setCurrentFrame(0);
-			audio->playCue(PISTOL_CUE);
-		}
-		else
-			setRadians(aimDir);
+		//	animComplete = false;
+		//	setCurrentFrame(0);
+		//	audio->playCue(PISTOL_CUE);
+		//}
+		//else
+		//	setRadians(aimDir);
 
-		weaponCooldown -= frameTime;
-		if(weaponCooldown < 0) weaponCooldown =0;
+		//weaponCooldown -= frameTime;
+		//if(weaponCooldown < 0) weaponCooldown =0;
 
-		recoilCooldown -= frameTime;
-		if(recoilCooldown < 0)recoilCooldown = 0;
+		//recoilCooldown -= frameTime;
+		//if(recoilCooldown < 0)recoilCooldown = 0;
 	}
 
 }
 
-void Ghost::evade(float frameTime)
+void Ghost::evade()
 {
 	VECTOR2 disp = targetEntity.getCenter()-getCenter();
 	D3DXVec2Normalize(&disp,&disp);
 	setVelocity(-disp);
 }
 
-void Ghost::deltaTrack(float frametime)
+void Ghost::deltaTrack()
 {
 
 	VECTOR2 v(0,0);
@@ -94,7 +96,7 @@ void Ghost::deltaTrack(float frametime)
 	setVelocity(v);
 
 }
-void Ghost::vectorTrack(float frametime)
+void Ghost::vectorTrack()
 {
 	VECTOR2 disp = targetEntity.getCenter()-getCenter();
 	D3DXVec2Normalize(&disp,&disp);
@@ -120,7 +122,7 @@ void Ghost::ai(float time, Actor &t)
 		if(target && distSqrdToPlayer < GhostNS::LOSE_DISTANCE_SQRD && distSqrdToPlayer > personalEngageDistanceSQRD) {
 			shoot = true;
 			targetEntity = t;
-			vectorTrack(time);
+			vectorTrack();
 			//setVelocity(VECTOR2(0,0));
 		}
 		else if(target && distSqrdToPlayer < GhostNS::LOSE_DISTANCE_SQRD) {
