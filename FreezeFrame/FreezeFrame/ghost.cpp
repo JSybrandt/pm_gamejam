@@ -72,6 +72,8 @@ void Ghost::vectorTrack()
 void Ghost::ai(float time, Actor &t)
 { 
 	if(active) {
+		targetEntity = t;
+
 		//VECTOR2 toPlayer = game->getPlayerLoc() - getCenter();
 		//float distSqrdToPlayer = D3DXVec2LengthSq(&toPlayer);
 
