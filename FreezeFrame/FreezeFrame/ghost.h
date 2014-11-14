@@ -26,7 +26,7 @@ public:
 	int numBullets;
 	float weaponCooldown;
 	float recoilCooldown;
-	int pattern;
+	bool pattern;
 
 	float personalChaseDistanceSQRD;
 	float personalEngageDistanceSQRD;
@@ -35,7 +35,7 @@ public:
 	Ghost();
 	~Ghost();
 
-	bool initialize(FreezeFrame * game, int width, int height, int ncols, TextureManager *textureM, int pattern = 0);
+	bool initialize(FreezeFrame * game, int width, int height, int ncols, TextureManager *textureM, bool pattern = false);
 
 	void update(float frametime);
 
