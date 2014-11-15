@@ -14,7 +14,7 @@ FreezeFrame::FreezeFrame()
 {
 	srand(time(0));
 
-	P1Controls = Controls('W','S','A','D','C','E');
+	P1Controls = Controls(VK_UP,VK_DOWN,VK_LEFT,VK_RIGHT,'C','E');
 
 	worldSizes = new VECTOR2[GameState::SIZE];
 	worldSizes[GameState::TitleScreen] = VECTOR2(GAME_WIDTH,GAME_HEIGHT);
@@ -171,31 +171,21 @@ void FreezeFrame::initialize(HWND hwnd)
 	}
 
 	pattern2[0].setAction(UP);
-	pattern2[0].setTimeForStep(1);
+	pattern2[0].setTimeForStep(3);
 	pattern2[1].setAction(RIGHT);
-	pattern2[1].setTimeForStep(1);
+	pattern2[1].setTimeForStep(3);
 	pattern2[2].setAction(DOWN);
-	pattern2[2].setTimeForStep(2);
+	pattern2[2].setTimeForStep(6);
 	pattern2[3].setAction(LEFT);
-	pattern2[3].setTimeForStep(2);
+	pattern2[3].setTimeForStep(6);
 	pattern2[4].setAction(UP);
-	pattern2[4].setTimeForStep(2);
+	pattern2[4].setTimeForStep(6);
 	pattern2[5].setAction(RIGHT);
-	pattern2[5].setTimeForStep(1);
+	pattern2[5].setTimeForStep(3);
 	pattern2[6].setAction(DOWN);
-	pattern2[6].setTimeForStep(1);
+	pattern2[6].setTimeForStep(3);
 	pattern2[7].setAction(NA);
 	pattern2[7].setTimeForStep(7);
-
-	//for (int i = 0; i< 2; i++)
-	//{
-	//	pattern3[i].initialize(&ghost3);
-	//	pattern3[i].setActive();
-	//}
-	//pattern3[0].setAction(DELTA);
-	//pattern3[0].setTimeForStep(2);
-	//pattern3[1].setAction(HOME);
-	//pattern3[1].setTimeForStep(2);
 
 	home.initialize(this, 0,0,0,&ghostTex);
 	home.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
@@ -271,9 +261,6 @@ void FreezeFrame::ai()
 	if (ps2 == 8) {
 		ps2 = 0;
 	}
-	//if (ps3 == 2) {
-	//	ps3 = 0;
-	//}
 
 	if (pattern1[ps1].isFinished()) {
 		pattern1[ps1].setActive();
@@ -283,13 +270,9 @@ void FreezeFrame::ai()
 		pattern2[ps2].setActive();
 		ps2++;
 	}
-	//if (pattern3[ps3].isFinished()) {
-	//	pattern3[ps3].setActive();
-	//	ps3++;
-	//}
+
 	pattern1[ps1].update(frameTime);
 	pattern2[ps2].update(frameTime);
-	//pattern3[ps3].update(frameTime);
 }
 
 //=============================================================================

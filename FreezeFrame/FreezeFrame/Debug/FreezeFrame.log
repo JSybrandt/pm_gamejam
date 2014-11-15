@@ -1,28 +1,20 @@
-﻿Build started 11/15/2014 1:03:47 PM.
+﻿Build started 11/15/2014 1:12:49 PM.
      1>Project "C:\PROJECTS\pm_gamejam\FreezeFrame\FreezeFrame\FreezeFrame.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt freezeframe.cpp
-         freezeframe.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ghost.cpp
+         ghost.cpp
+     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.h(10): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.h(11): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.h(12): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\player.h(16): warning C4305: 'initializing' : truncation from 'double' to 'const float'
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\player.h(18): warning C4305: 'initializing' : truncation from 'double' to 'const float'
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\player.h(19): warning C4305: 'initializing' : truncation from 'double' to 'const float'
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\player.h(23): warning C4305: 'initializing' : truncation from 'double' to 'const float'
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\player.h(25): warning C4305: 'initializing' : truncation from 'double' to 'const float'
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\player.h(30): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.h(10): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.h(11): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.h(12): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
      1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.h(184): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(15): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(20): warning C4244: 'argument' : conversion from 'const UINT' to 'FLOAT', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(21): warning C4244: 'argument' : conversion from 'const UINT' to 'FLOAT', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(24): warning C4244: 'argument' : conversion from 'const UINT' to 'FLOAT', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(377): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(434): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(591): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(603): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(604): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\projects\pm_gamejam\freezeframe\freezeframe\freezeframe.cpp(665): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.cpp(109): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\projects\pm_gamejam\freezeframe\freezeframe\ghost.cpp(110): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\PROJECTS\pm_gamejam\FreezeFrame\FreezeFrame\Debug\FreezeFrame.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\PROJECTS\pm_gamejam\FreezeFrame\FreezeFrame\Debug\FreezeFrame.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\PROJECTS\pm_gamejam\FreezeFrame\FreezeFrame\Debug\FreezeFrame.lib" /MACHINE:X86 /SAFESEH Debug\Actor.obj
          Debug\audio.obj
