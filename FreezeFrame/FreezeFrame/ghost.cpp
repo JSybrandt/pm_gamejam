@@ -63,8 +63,13 @@ void Ghost::deltaTrack()
 void Ghost::vectorTrack()
 {
 	VECTOR2 disp = targetEntity.getCenter()-getCenter();
-	D3DXVec2Normalize(&disp,&disp);
-	setVelocity(disp);
+	if(D3DXVec2LengthSq(&disp) > GhostNS::VEC_TRACK_EPS)
+	{
+		D3DXVec2Normalize(&disp,&disp);
+		setVelocity(disp);
+	}
+	else
+		setVelocity(VECTOR2(0,0));
 }
 
 void Ghost::ai(float time, Actor &t)
