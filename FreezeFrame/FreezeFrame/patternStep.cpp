@@ -26,18 +26,23 @@ void PatternStep::update(float frameTime)
 	switch (action)
 	{
 	case NA:
+		entity->setTarget(false);
 		entity->setVelocity(D3DXVECTOR2(0, 0));
 		break;
 	case UP:
+		entity->setTarget(false);
 		entity->setVelocity(D3DXVECTOR2(0, -1));
 		break;
 	case DOWN:
+		entity->setTarget(false);
 		entity->setVelocity(D3DXVECTOR2(0, 1));
 		break;
 	case RIGHT:
+		entity->setTarget(false);
 		entity->setVelocity(D3DXVECTOR2(1,0));
 		break;
 	case LEFT:
+		entity->setTarget(false);
 		entity->setVelocity(D3DXVECTOR2(-1,0));
 		break;
 	case UPPERLEFT:

@@ -8,10 +8,11 @@ Ghost::Ghost():Actor(){
 	edge.right = 0;
 	radius = 12;
 	timer = 0;
+	ghosty = 0;
 	collisionType = COLLISION_TYPE::CIRCLE;
 	colorFilter = GhostNS::COLOR;
 	setActive(false);
-	target = true;
+	target = false;
 	shoot = false;
 	pattern = false;
 }
@@ -75,13 +76,22 @@ void Ghost::ai(float time, Actor &t)
 { 
 	if(active) {
 
-		if(target)
+		if(target) {
 			targetEntity = t;
-		else
-			targetEntity = game->getHome();		
+			ghosty += time;
+			if(ghosty > 4) {
+				audio->playCue(GHOST_CUE);
+				ghosty = 0;
+			}
+		}
+		else {
+			targetEntity = game->getHome();
+			ghosty += time;
+		}
 		if(pattern == false) {
 			vectorTrack();
 			timer += time;
+
 			if(timer > 10) {
 				target = !target;
 				timer = 0;

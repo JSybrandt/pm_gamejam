@@ -14,7 +14,7 @@ FreezeFrame::FreezeFrame()
 {
 	srand(time(0));
 
-	P1Controls = Controls('W','S','A','D','C','E');
+	P1Controls = Controls(VK_UP,VK_DOWN,VK_LEFT,VK_RIGHT,'C','E');
 
 	worldSizes = new VECTOR2[GameState::SIZE];
 	worldSizes[GameState::TitleScreen] = VECTOR2(GAME_WIDTH,GAME_HEIGHT);
@@ -163,7 +163,7 @@ void FreezeFrame::initialize(HWND hwnd)
 	pattern2[2].setAction(DOWN);
 	pattern2[2].setTimeForStep(6);
 	pattern2[3].setAction(LEFT);
-	pattern2[3].setTimeForStep(5);
+	pattern2[3].setTimeForStep(6);
 	pattern2[4].setAction(UP);
 	pattern2[4].setTimeForStep(6);
 	pattern2[5].setAction(RIGHT);

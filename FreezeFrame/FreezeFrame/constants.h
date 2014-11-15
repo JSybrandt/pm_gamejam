@@ -86,6 +86,7 @@ const char BEEP_CUE[] = "beep";
 const char OPENING_CUE[] = "opening";
 const char MAIN_LOOP_CUE[] = "mainLoop";
 const char END_CUE[] = "end";
+const char GHOST_CUE[] = "ghost";
 
 // window
 const char CLASS_NAME[] = "Freeze Frame";
