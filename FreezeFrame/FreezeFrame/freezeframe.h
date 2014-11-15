@@ -85,7 +85,10 @@ private:
 	
 	TextureManager ghostTex;
 	TextureManager dotTex;
+	TextureManager winTex;
+	TextureManager loseTex;
 
+	Image win,lose;
 
 	TextDX infoText;
 
@@ -133,6 +136,10 @@ private:
 	float introMusicCoutdown; 
 
 	int score; 
+
+	bool gameOn;
+
+	int numDots;
 
 public:
 	// Constructor

@@ -36,6 +36,7 @@ FreezeFrame::FreezeFrame()
 	ps2 = 0;
 	ps3 = 0;
 
+	gameOn = true;
 	numLives = STARTING_LIVES;
 }
 
@@ -73,6 +74,15 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	if(!dotTex.initialize(graphics,DOT_IMAGE))
 		throw GameError(10,"Failed to init dot tex");
+	if(!winTex.initialize(graphics,WIN_IMAGE))
+		throw GameError(10,"Failed to init win tex");
+	if(!loseTex.initialize(graphics,LOSE_IMAGE))
+		throw GameError(10,"Failed to init lose tex");
+
+	if(!win.initialize(graphics,0,0,0,&winTex))
+		throw GameError(15,"Failed to init win image");
+	if(!lose.initialize(graphics,0,0,0,&loseTex))
+		throw GameError(15,"Failed to init lose image");
 
 	for(int i = 0 ; i < MAX_DOTS; i++)
 	{
@@ -95,7 +105,7 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	for(int i = 0; i < MAX_GhostS; i++)
 	{
-		if(!Ghosts[i].initialize(this,64,64,4,&ghostTex))
+		if(!Ghosts[i].initialize(this,0,0,0,&ghostTex))
 			throw GameError(-1*i,"FAILED TO MAKE DUDE!");
 		Ghosts[i].setFrames(0, 6);   // animation frames
 		Ghosts[i].setCurrentFrame(0);     // starting frame
@@ -121,12 +131,16 @@ void FreezeFrame::initialize(HWND hwnd)
 
 	level1Load();
 
-	if(!ghost1.initialize(this,128,128,0,&ghostTex, true))
+	if(!ghost1.initialize(this,0,0,0,&ghostTex, true))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
-	if(!ghost2.initialize(this,128,128,0,&ghostTex, true))
+	if(!ghost2.initialize(this,0,0,0,&ghostTex, true))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
-	if(!ghost3.initialize(this,128,128,0,&ghostTex))
+	if(!ghost3.initialize(this,0,0,0,&ghostTex))
 		throw GameError(-1,"FAILED TO MAKE DUDE!");
+
+	ghost1.setColorFilter(graphicsNS::RED);
+	ghost2.setColorFilter(graphicsNS::BLUE);
+	ghost3.setColorFilter(graphicsNS::GREEN);
 
 	for (int i = 0; i< 8; i++)
 	{
@@ -219,51 +233,26 @@ void FreezeFrame::levelsUpdate()
 	if(input->wasKeyPressed('R'))
 		level1Load();
 
-	if(paused) return;
-
-
-	if(!player.alive)
-	{
-		playerDeathCountdown -= frameTime;
-		if(playerDeathCountdown<=0)
-			if(numLives > 0)
-			{
-				switch (currentState)
-				{
-				case FreezeFrame::Level1:
-					level1Load();
-					break;
-				case FreezeFrame::Level2:
-					level2Load();
-					break;
-				case FreezeFrame::Level3:
-					level3Load();
-					break;
-				default:
-					break;
-				}
-			}
-	}
-
-	worldFrameTime = frameTime;
-	player.update(worldFrameTime);
-	updateScreen(player.getCenter());
-
-	ghost1.update(worldFrameTime);
-	ghost2.update(worldFrameTime);
-	ghost3.update(worldFrameTime);
-
-	for(int i = 0; i < MAX_GhostS; i++)
-	{
-		Ghosts[i].update(worldFrameTime);
-
-	}
-
 	for(int i = 0 ; i < MAX_PARTICLES; i++)
 	{
 		particles[i].update(worldFrameTime);
 	}
 
+	
+	ghost1.update(worldFrameTime);
+	ghost2.update(worldFrameTime);
+	ghost3.update(worldFrameTime);
+
+	if(!gameOn) return;
+
+
+	worldFrameTime = frameTime;
+	player.update(worldFrameTime);
+	updateScreen(player.getCenter());
+
+
+
+	
 	
 }
 
@@ -308,18 +297,22 @@ void FreezeFrame::ai()
 //=============================================================================
 void FreezeFrame::collisions()
 {
-	VECTOR2 v;
-	for(int i = 0; i < MAX_DOTS;i++)
+	if(gameOn) 
 	{
-		if(player.collidesWith(dots[i],v))
+		VECTOR2 v;
+		for(int i = 0; i < MAX_DOTS;i++)
 		{
-			dots[i].setActive(false);
-			score++;
-			spawnParticleCloud(player.getCenter(),graphicsNS::YELLOW);
+			if(player.collidesWith(dots[i],v))
+			{
+				dots[i].setActive(false);
+				score++;
+				spawnParticleCloud(player.getCenter(),graphicsNS::YELLOW);
+
+				if(score == numDots)gameOn = false;
+
+			}
 
 		}
-
-	}
 
 		if(player.collidesWith(ghost1,v))
 		{
@@ -340,6 +333,7 @@ void FreezeFrame::collisions()
 			numLives--;
 			spawnParticleCloud(player.getCenter(),ghost3.getColorFilter());
 		}
+	}
 }
 
 //=============================================================================
@@ -364,9 +358,9 @@ void FreezeFrame::levelsRender()
 	for(int i = 0 ; i < MAX_DOTS; i++)
 		dots[i].draw(screenLoc);
 	
-	ghost1.draw(screenLoc, graphicsNS::RED);
-	ghost2.draw(screenLoc, graphicsNS::BLUE);
-	ghost3.draw(screenLoc, graphicsNS::GREEN);
+	ghost1.draw(screenLoc);
+	ghost2.draw(screenLoc);
+	ghost3.draw(screenLoc);
 
 	for(int i = 0; i < MAX_WALLS; i++)
 	{
@@ -380,8 +374,15 @@ void FreezeFrame::levelsRender()
 		particles[i].draw(screenLoc);
 	}
 
-	infoText.print("LIVES:"+std::to_string(numLives),GAME_WIDTH*0.8,0);
 	infoText.print("SCORE:"+std::to_string(score),GAME_WIDTH*0.2,0);
+
+	if(!gameOn)
+	{
+		if(score == numDots)
+			win.draw(VECTOR2(0,0));
+		else
+			lose.draw(VECTOR2(0,0));
+	}
 }
 
 //=============================================================================
@@ -411,6 +412,9 @@ void FreezeFrame::level1Load()
 	currentState = Level1;
 	deactivateAll();
 
+	score = 0;
+	gameOn = true;
+
 	ghost1.setActive(true);
 	ghost1.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
 
@@ -420,11 +424,16 @@ void FreezeFrame::level1Load()
 	ghost3.setActive(true);
 	ghost3.setCenter(VECTOR2(worldSizes[currentState].x/2,worldSizes[currentState].y/2));
 
-	player.setCenter(getCurrentWorldSize()/2);
+	player.setCenter(getCurrentWorldSize()/4);
+
+	numDots = 0;
 
 	for(int i = 25 ; i < getCurrentWorldSize().x-25;i+=50)
 		for(int h= 25 ; h < getCurrentWorldSize().y-25;h+=50)
+		{
 			spawnDot(VECTOR2(i,h));
+			numDots++;
+		}
 
 	spawnWall(VECTOR2(0,0),VECTOR2(250,300));
 	spawnWall(VECTOR2(getCurrentWorldSize().x-200,0),VECTOR2(200,400));
@@ -442,7 +451,10 @@ void FreezeFrame::level1Load()
 	for(int i = 0 ; i < MAX_DOTS;i++)
 		for(int j = 0 ; j < MAX_WALLS; j++)
 			if(walls[j].collidesWith(dots[i],v))
+			{
 				dots[i].setActive(false);
+				numDots--;
+			}
 }
 
 void FreezeFrame::level2Load()
@@ -655,12 +667,10 @@ bool FreezeFrame::getRealEndLoc(VECTOR2 startLoc, VECTOR2 endLoc,Actor*a)
 
 void FreezeFrame::onPlayerDeath()
 {
-	if(player.alive && !l2pCheat)
-	{
-		player.alive = false;
 		spawnParticleCloud(player.getCenter(),graphicsNS::RED);
 		playerDeathCountdown = TIME_UNTIL_RESET;
 		audio->playCue(KILL3_CUE);
 		numLives--;
-	}
+		gameOn = false;
+		score = 0;
 }
