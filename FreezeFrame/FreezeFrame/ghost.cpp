@@ -7,7 +7,8 @@ Ghost::Ghost():Actor(){
 	edge.left = -192;
 	edge.right = 0;
 	radius = 12;
-	collisionType = COLLISION_TYPE::BOX;
+	timer = 0;
+	collisionType = COLLISION_TYPE::CIRCLE;
 	colorFilter = GhostNS::COLOR;
 	setActive(false);
 	target = true;
@@ -73,40 +74,21 @@ void Ghost::vectorTrack()
 void Ghost::ai(float time, Actor &t)
 { 
 	if(active) {
-		if(pattern == false) {
-			targetEntity = t;
-			vectorTrack();
-		}
 
-		/*if(target)
+		if(target)
 			targetEntity = t;
 		else
-			targetEntity = game->getHome();*/
+			targetEntity = game->getHome();		
+		if(pattern == false) {
+			vectorTrack();
+			timer += time;
+			if(timer > 10) {
+				target = !target;
+				timer = 0;
+			}
+		}
 
-		//VECTOR2 toPlayer = game->getPlayerLoc() - getCenter();
-		//float distSqrdToPlayer = D3DXVec2LengthSq(&toPlayer);
 
-		//if(distSqrdToPlayer > GhostNS::LOSE_DISTANCE_SQRD) {
-		//	target = false;
-		//	shoot = false;
-		//	setVelocity(VECTOR2(0,0));
-		//}
-		//else if(distSqrdToPlayer < personalChaseDistanceSQRD) {
-		//	target = true;
-		//	//shoot = false;
-		//}
-
-		//if(target && distSqrdToPlayer < GhostNS::LOSE_DISTANCE_SQRD && distSqrdToPlayer > personalEngageDistanceSQRD) {
-		//	shoot = true;
-		//	targetEntity = t;
-		//	vectorTrack();
-		//	//setVelocity(VECTOR2(0,0));
-		//}
-		//else if(target && distSqrdToPlayer < GhostNS::LOSE_DISTANCE_SQRD) {
-		//	shoot = true;
-		//	setVelocity(VECTOR2(0,0));
-		//}
-		
 	}
 	return;
 }

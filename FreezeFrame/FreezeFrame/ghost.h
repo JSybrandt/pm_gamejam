@@ -27,7 +27,7 @@ public:
 	float weaponCooldown;
 	float recoilCooldown;
 	bool pattern;
-
+	float timer;
 	float personalChaseDistanceSQRD;
 	float personalEngageDistanceSQRD;
 
